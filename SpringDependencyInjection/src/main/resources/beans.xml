@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<bean id="employeeSetter" class="com.spring.DIExample.Employee">
+		<property name="name" value="BoySet" />
+		<property name="department" ref="department"></property>
+	</bean>
+
+	<bean id="employeeConstructor" class="com.spring.DIExample.Employee">
+		<constructor-arg index="0" value="BoyConstruct"></constructor-arg>
+	</bean>
+
+	<bean id="employeeNumSetter" class="com.spring.DIExample.Employee">
+		<property name="age" value="23"></property>
+	</bean>
+
+	<bean id="employeeNumConstruct" class="com.spring.DIExample.Employee">
+		<constructor-arg value="Boy"></constructor-arg>
+		<constructor-arg index="1" value="23"></constructor-arg>
+	</bean>
+
+	<bean id="employeeTelephone1" class="com.spring.DIExample.Employee">
+		<property name="telephones">
+			<list>
+				<value>boy1</value>
+				<value>boy2</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="employeeTelephone2" class="com.spring.DIExample.Employee">
+		<property name="telephones" ref="myList" />
+	</bean>
+
+	<util:list id="myList" value-type="java.lang.String">
+		<value>foo</value>
+		<value>bar</value>
+	</util:list>
+
+	<bean id="department" class="com.spring.DIExample.Department">
+		<property name="name" value="IT"></property>
+	</bean>
+	
+</beans>
