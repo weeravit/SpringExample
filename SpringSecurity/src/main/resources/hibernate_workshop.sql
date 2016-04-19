@@ -1,6 +1,6 @@
 /*
-SQLyog Community v12.2.1 (64 bit)
-MySQL - 10.1.9-MariaDB : Database - hibernate_workshop
+SQLyog Community v11.28 (32 bit)
+MySQL - 5.6.24 : Database - hibernate_workshop
 *********************************************************************
 */
 
@@ -31,9 +31,8 @@ CREATE TABLE `authenticate` (
 
 /*Data for the table `authenticate` */
 
-insert  into `authenticate`(`user_id`,`username`,`password`) values 
-(2,'boy','$2a$08$UKPSAvSMtSwo6qoAxX5cau0ynn2PuBaWQQmEQ05LZY/1X4/E2ejrW'),
-(3,'ping','$2a$08$1Jf2ANLY9cQr3BOATV7rWuS6p8Cewg0nk5Laphll50ho3nGGkUqZu');
+insert  into `authenticate`(`user_id`,`username`,`password`) values (2,'boy','$2a$08$UKPSAvSMtSwo6qoAxX5cau0ynn2PuBaWQQmEQ05LZY/1X4/E2ejrW');
+insert  into `authenticate`(`user_id`,`username`,`password`) values (3,'ping','$2a$08$1Jf2ANLY9cQr3BOATV7rWuS6p8Cewg0nk5Laphll50ho3nGGkUqZu');
 
 /*Table structure for table `cinema` */
 
@@ -76,9 +75,8 @@ CREATE TABLE `role` (
 
 /*Data for the table `role` */
 
-insert  into `role`(`id`,`name`) values 
-(1,'ROLE_ADMIN'),
-(2,'ROLE_USER');
+insert  into `role`(`id`,`name`) values (1,'ROLE_ADMIN');
+insert  into `role`(`id`,`name`) values (2,'ROLE_USER');
 
 /*Table structure for table `user` */
 
@@ -96,9 +94,8 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`name`,`role_id`) values 
-(2,'boy',2),
-(3,'ping',1);
+insert  into `user`(`id`,`name`,`role_id`) values (2,'boy',2);
+insert  into `user`(`id`,`name`,`role_id`) values (3,'ping',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

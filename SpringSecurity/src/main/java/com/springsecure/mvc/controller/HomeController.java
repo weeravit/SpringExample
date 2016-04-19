@@ -34,7 +34,7 @@ public class HomeController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/test", method = RequestMethod.GET)
 	public String admin(Locale locale, Model model) {
 		model.addAttribute("serverTime", "admin");
 		return "home";
