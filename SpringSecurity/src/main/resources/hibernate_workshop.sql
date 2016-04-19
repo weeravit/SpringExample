@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `authenticate`;
 CREATE TABLE `authenticate` (
   `user_id` int(10) unsigned NOT NULL,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(60) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   CONSTRAINT `authenticate_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
@@ -32,8 +32,8 @@ CREATE TABLE `authenticate` (
 /*Data for the table `authenticate` */
 
 insert  into `authenticate`(`user_id`,`username`,`password`) values 
-(2,'boy','1234'),
-(3,'ping','1234');
+(2,'boy','$2a$08$UKPSAvSMtSwo6qoAxX5cau0ynn2PuBaWQQmEQ05LZY/1X4/E2ejrW'),
+(3,'ping','$2a$08$1Jf2ANLY9cQr3BOATV7rWuS6p8Cewg0nk5Laphll50ho3nGGkUqZu');
 
 /*Table structure for table `cinema` */
 

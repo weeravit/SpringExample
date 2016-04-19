@@ -10,7 +10,6 @@
 		<config>src/main/webapp/WEB-INF/spring/dispatcher-servlet.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/config/spring-security.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/config/spring-db.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/root-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
