@@ -31,6 +31,10 @@ CREATE TABLE `authenticate` (
 
 /*Data for the table `authenticate` */
 
+insert  into `authenticate`(`user_id`,`username`,`password`) values 
+(2,'boy','1234'),
+(3,'ping','1234');
+
 /*Table structure for table `cinema` */
 
 DROP TABLE IF EXISTS `cinema`;

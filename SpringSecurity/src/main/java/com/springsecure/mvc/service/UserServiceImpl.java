@@ -10,7 +10,6 @@ import com.springsecure.mvc.model.User;
 import com.springsecure.mvc.repository.UserRepository;
 
 @Service
-//@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
