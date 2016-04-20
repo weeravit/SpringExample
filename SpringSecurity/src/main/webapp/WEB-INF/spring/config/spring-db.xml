@@ -1,37 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-	
+
 	<jpa:repositories base-package="com.springsecure.mvc.repository" />
-	
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url"
-			value="jdbc:mysql://localhost:3306/hibernate_workshop" />
-		<property name="username" value="root" />
+
+	<!-- <bean id="dataSource" -->
+	<!-- class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" -->
+	<!-- value="jdbc:mysql://localhost:3306/hibernate_workshop" /> -->
+	<!-- <property name="username" value="root" /> -->
+	<!-- <property name="password" value="" /> -->
+	<!-- </bean> -->
+
+	<!-- Run H2 web server within application that will access the same in-memory 
+		database -->
+	<bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer"
+		init-method="start" destroy-method="stop" depends-on="h2WebServer">
+		<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" />
+	</bean>
+	<bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer"
+		init-method="start" destroy-method="stop">
+		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
+	</bean>
+
+	<jdbc:embedded-database id="dataSource" type="H2">
+		<jdbc:script location="classpath:schema.sql" />
+		<jdbc:script location="classpath:test-data.sql" />
+	</jdbc:embedded-database>
+
+	<bean id="dmDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:mem:dataSource" />
+		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dmDataSource" />
 		<property name="packagesToScan" value="com.springsecure.mvc.model" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
 	</bean>
-	
-<!-- 	<tx:annotation-driven/> -->
+
+	<!-- <tx:annotation-driven/> -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-	
+
 </beans>
