@@ -12,15 +12,17 @@ import javax.persistence.Table;
 public class Authenticate {
 
 	@Id
-	@Column(name = "user_id", unique = true)
+	@Column(name = "user_id", unique = true, nullable = false)
 	private Long id;
 	
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
+	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 	
+	@Column(name = "password", nullable = false)
 	private String password;
 	
 	protected Authenticate() {

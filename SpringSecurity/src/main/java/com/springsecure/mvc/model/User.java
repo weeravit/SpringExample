@@ -1,7 +1,7 @@
 package com.springsecure.mvc.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,8 +15,10 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	
+	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 	
 	@ManyToOne
@@ -26,6 +28,12 @@ public class User {
 	protected User() {
 	}
 	
+	public User(String name, Role role) {
+		super();
+		this.name = name;
+		this.role = role;
+	}
+
 	public Long getId() {
 		return id;
 	}

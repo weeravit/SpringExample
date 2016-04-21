@@ -9,14 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.springsecure.mvc.model.Role;
+import com.springsecure.mvc.model.User;
 import com.springsecure.mvc.service.UserService;
 
 @Controller
 public class HomeController {
 	
 	@Autowired
-	UserService userService;	
+	UserService userService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -27,6 +30,13 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String create() {
+		User user = new User("haha", new Role(1L));
+		return userService.insert(user) ? "create success" : "create failure"; 
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)

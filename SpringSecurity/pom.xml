@@ -9,6 +9,7 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javax.servlet>3.1.0</javax.servlet>
 		<org.springframework-version>4.2.5.RELEASE</org.springframework-version>
 		<org.springframework.security>4.0.4.RELEASE</org.springframework.security>
