@@ -9,16 +9,12 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
-	<jpa:repositories base-package="com.springsecure.mvc.repository" />
+	<bean id="dbProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:db.properties" />
+	</bean>
 
-	<!-- <bean id="dataSource" -->
-	<!-- class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> -->
-	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-	<!-- <property name="url" -->
-	<!-- value="jdbc:mysql://localhost:3306/hibernate_workshop" /> -->
-	<!-- <property name="username" value="root" /> -->
-	<!-- <property name="password" value="" /> -->
-	<!-- </bean> -->
+	<jpa:repositories base-package="com.springsecure.mvc.repository" />
 
 	<!-- Run H2 web server within application that will access the same in-memory 
 		database -->
@@ -31,25 +27,38 @@
 		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
 	</bean>
 
-	<jdbc:embedded-database id="dataSource" type="H2">
-		<jdbc:script location="classpath:schema.sql" />
-		<jdbc:script location="classpath:test-data.sql" />
-	</jdbc:embedded-database>
-
-	<bean id="dmDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:mem:dataSource" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="dataSourceClassName"
+			value="${db.dataSourceClassName}" />
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="url">${db.url}</prop>
+				<prop key="user">${db.username}</prop>
+				<prop key="password">${db.password}</prop>
+			</props>
+		</property>
 	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+
+	<bean id="hibernateJpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dmDataSource" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.springsecure.mvc.model" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+			</props>
 		</property>
 	</bean>
 
